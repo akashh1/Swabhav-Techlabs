@@ -1,0 +1,66 @@
+<html>
+
+<head>
+    <style>
+        button {
+            width: 280px;
+            height: 80px;
+            background-color: rgba(185, 179, 179, 0.952);
+        }
+    </style>
+    <title>Find BlueBlue Box </title>
+</head>
+
+<body onload="startGame()">
+    <div id="drawButton">
+
+    </div>
+    <br>
+</body>
+<script>
+    var buttonDiv = document.getElementById("drawButton");
+    var ranNum = Math.floor((Math.random() * 100) + 1);
+    var counter = 0;
+    function startGame() {
+
+        console.log(ranNum);
+        for (var i = 1; i <= 100; i++) {
+
+            buttonDiv.innerHTML += "<button id=" + i + "  type = 'button' onclick = 'check(this.id)' >" + "Box " +
+                i + "</button>";
+        }
+
+    }
+
+    function check(id) {
+
+        var id = id;
+        console.log(id);
+        var selectedButton = document.getElementById(id);
+
+        if (id > ranNum) {
+            selectedButton.style.backgroundColor = "red";
+            counter = counter + 1;
+            console.log(counter);
+        }
+        else if (id < ranNum) {
+            selectedButton.style.backgroundColor = "green";
+            counter = counter + 1;
+            console.log(counter);
+        }
+        else if (id == ranNum) {
+            selectedButton.style.backgroundColor = "blue";
+            location.reload();
+            alert("You Win...");
+        }
+        if (counter === 3) {
+            alert("You are out of attempts.");
+            location.reload();
+            console.log("after body");
+        }
+    }
+
+
+</script>
+
+</html>

@@ -1,0 +1,43 @@
+<ion-header>
+    <ion-navbar color="secondary">
+        <ion-title>
+            ExpensesDetail
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button (click)='CloseEdit()' icon-only>
+                <ion-icon name="close"></ion-icon>
+            </button>
+            <button ion-button (click)='SaveEditData(id,money,catagory,description,date)' icon-only>
+                <ion-icon name="checkmark"></ion-icon>
+            </button>
+            <button ion-button (click)='DeleteData(id)' icon-only>
+                <ion-icon name="trash"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content padding>
+    <ion-list>
+        <ion-item>
+            <ion-label color="danger" stacked>Expense Id: {{id}}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label color="danger" floating stacked>Money</ion-label>
+            <ion-input type="text" [(ngModel)]='money'></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label color="danger" floating stacked>Catagory</ion-label>
+            <ion-select [(ngModel)]='catagory'>
+                <ion-option *ngFor="let c of catagories">{{c}}</ion-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label color="danger" floating stacked>Description</ion-label>
+            <ion-input type="text" [(ngModel)]='description'></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label color="danger" flaoting stacked>Date</ion-label>
+            <ion-datetime displayFormat="DD MMMM YYYY" [(ngModel)]="date"></ion-datetime>
+        </ion-item>
+    </ion-list>
+</ion-content>

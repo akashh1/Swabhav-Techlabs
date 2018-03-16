@@ -1,0 +1,198 @@
+--DROP TABLE EMP;
+--DROP TABLE DEPT;
+
+CREATE TABLE DEPT (
+ DEPTNO              integer NOT NULL,
+ DNAME               varchar(14),
+ LOC                 varchar(13),
+ CONSTRAINT DEPT_PRIMARY_KEY PRIMARY KEY (DEPTNO));
+
+INSERT INTO DEPT VALUES (10,'ACCOUNTING','NEW YORK');
+INSERT INTO DEPT VALUES (20,'RESEARCH','DALLAS');
+INSERT INTO DEPT VALUES (30,'SALES','CHICAGO');
+INSERT INTO DEPT VALUES (40,'OPERATIONS','BOSTON');
+
+CREATE TABLE EMP (
+ EMPNO               integer NOT NULL,
+ ENAME               varchar(10),
+ JOB                 varchar(9),
+ MGR                 integer CONSTRAINT EMP_SELF_KEY REFERENCES EMP (EMPNO),
+ HIREDATE            DATEtime,
+ SAL                 money,
+ COMM                money,
+ DEPTNO              integer NOT NULL,
+ CONSTRAINT EMP_FOREIGN_KEY FOREIGN KEY (DEPTNO) REFERENCES DEPT (DEPTNO),
+ CONSTRAINT EMP_PRIMARY_KEY PRIMARY KEY (EMPNO));
+
+INSERT INTO EMP VALUES (7839,'KING','PRESIDENT',NULL,'17-NOV-81',5000,NULL,10);
+INSERT INTO EMP VALUES (7698,'BLAKE','MANAGER',7839,'1-MAY-81',2850,NULL,30);
+INSERT INTO EMP VALUES (7782,'CLARK','MANAGER',7839,'9-JUN-81',2450,NULL,10);
+INSERT INTO EMP VALUES (7566,'JONES','MANAGER',7839,'2-APR-81',2975,NULL,20);
+INSERT INTO EMP VALUES (7654,'MARTIN','SALESMAN',7698,'28-SEP-81',1250,1400,30);
+INSERT INTO EMP VALUES (7499,'ALLEN','SALESMAN',7698,'20-FEB-81',1600,300,30);
+INSERT INTO EMP VALUES (7844,'TURNER','SALESMAN',7698,'8-SEP-81',1500,0,30);
+INSERT INTO EMP VALUES (7900,'JAMES','CLERK',7698,'3-DEC-81',950,NULL,30);
+INSERT INTO EMP VALUES (7521,'WARD','SALESMAN',7698,'22-FEB-81',1250,500,30);
+INSERT INTO EMP VALUES (7902,'FORD','ANALYST',7566,'3-DEC-81',3000,NULL,20);
+INSERT INTO EMP VALUES (7369,'SMITH','CLERK',7902,'17-DEC-80',800,NULL,20);
+INSERT INTO EMP VALUES (7788,'SCOTT','ANALYST',7566,'09-DEC-82',3000,NULL,20);
+INSERT INTO EMP VALUES (7876,'ADAMS','CLERK',7788,'12-JAN-83',1100,NULL,20);
+INSERT INTO EMP VALUES (7934,'MILLER','CLERK',7782,'23-JAN-82',1300,NULL,10);
+
+SELECT * FROM DEPT;
+SELECT *FROM EMP;
+
+--Display all Employees acsendind order of their name.
+
+SELECT ENAME 
+FROM EMP 
+ORDER BY ENAME ASC;
+
+--Display all the employee name in lower case.
+
+SELECT LOWER (ENAME)
+FROM EMP ;
+
+--Display employee name ,salary ,commision.
+
+SELECT ENAME,SAL,COMM
+FROM EMP;
+
+--Display employee in department 10,
+
+SELECT * FROM EMP 
+WHERE DEPTNO = 10;
+
+--Display employee whose comm is null,
+
+SELECT * FROM EMP
+WHERE COMM IS NULL; 
+
+--Display employee salary , name , annunal salary in CTC,
+ 
+
+SELECT ENAME,SAL, SAL * 12 + ISNULL(COMM , 0) * 12 AS ANNSAL
+FROM EMP; 
+
+SELECT ISNULL(COMM, 0 ) FROM EMP;
+--Display employee in dept 10 and 20.
+
+SELECT * FROM EMP 
+WHERE DEPTNO = 10 OR DEPTNO = 20;  
+
+-- Display detail of employee whose name is scott.
+
+SELECT * FROM EMP
+WHERE ENAME = 'SCOTT';
+
+--Display top 3 earnig salary employee.
+SELECT TOP 3*, SAL * 12 + ISNULL(COMM , 0) * 12 AS ANNSAL 
+FROM EMP
+ORDER BY ANNSAL DESC;
+
+-- Display years of working of employees.
+SELECT *, YEAR(GETDATE()) - YEAR(HIREDATE) AS WorkingYears FROM EMP;
+
+SELECT YEAR(GETDATE()); 
+
+--Display employeename which conatin 's'.
+SELECT * FROM EMP
+WHERE ENAME LIKE '%s%' ; 
+
+--Display employeename which starts with 'a',
+SELECT * FROM EMP 
+WHERE ENAME LIKE 'a%';
+
+--Display employeeName which ends with 'n'.
+SELECT * FROM EMP
+WHERE ENAME LIKE '%n';
+
+--Display all employee which in department of scott.
+SELECT * FROM EMP
+WHERE DEPTNO = (
+SELECT DEPTNO FROM EMP WHERE ENAME = 'SCOTT'
+)
+
+--Display employee which salary same as scott.
+SELECT * FROM EMP
+WHERE SAL = (
+SELECT SAL FROM EMP WHERE ENAME = 'SCOTT'
+);
+
+--Display department details...
+SELECT DEPTNO FROM EMP
+ORDER BY DEPTNO ASC;
+
+--Display unique deparment...
+SELECT DISTINCT DEPTNO FROM EMP
+ORDER BY DEPTNO ASC; 
+
+--Display hiredate in dd/MM/yyyy format.
+SELECT *,HIREDATE = CONVERT(VARCHAR , HIREDATE ,103) FROM EMP; 
+
+--Display number of employees.
+SELECT COUNT(EMPNO) AS HEADCOUNT FROM EMP;
+
+--Display number of employee in dept Id.
+SELECT COUNT(DEPTNO) AS HEADCOUNT FROM EMP
+WHERE DEPTNO = 10;
+
+--Display SUM of salary.
+SELECT SUM(SAL) AS TOTALSALARY FROM EMP;
+
+--Display employeeName and their department name.
+ SELECT DEPT.DNAME , EMP.ENAME
+ FROM EMP INNER JOIN DEPT 
+ ON  EMP.DEPTNO = DEPT.DEPTNO
+ ORDER BY EMP.DEPTNO
+ --Display all departments and employess if any.
+ SELECT DEPT.DNAME , EMP.ENAME 
+ FROM DEPT LEFT JOIN EMP 
+ ON DEPT.DEPTNO = EMP.DEPTNO;
+
+ --Display all department there is no employee.
+ SELECT DEPT.DNAME 
+ FROM DEPT LEFT JOIN EMP
+ ON DEPT.DEPTNO = EMP.DEPTNO
+ WHERE EMP.DEPTNO IS NULL  
+
+
+ --Display employeename and boss name.
+ SELECT A.ENAME AS BOSS , B.ENAME AS EMPLOYEE , A.EMPNO AS BOSSID, B.MGR AS EMPLOYEEID  
+ FROM EMP A,EMP B
+ WHERE A.EMPNO = B.MGR 
+ 
+ --Display department wise employess.
+ SELECT EMP.DEPTNO, COUNT(EMPNO) AS HEADCOUNT
+ FROM EMP
+ GROUP BY EMP.DEPTNO
+
+ --Display job wise employees.
+ SELECT EMP.JOB , COUNT(EMPNO) AS HEADCOUNT
+ FROM EMP
+ GROUP BY EMP.JOB
+
+ --Display department job wise employees.
+ SELECT EMP.DEPTNO , EMP.JOB ,COUNT(EMPNO) AS HEADCOUNT
+ FROM EMP
+ GROUP BY EMP.DEPTNO ,EMP.JOB
+
+ --Display department job wise employee count which is >= 2 ,asecending order of department wise.
+ SELECT EMP.DEPTNO , EMP.JOB , COUNT(EMPNO) AS HEADCOUNT
+ FROM EMP
+ GROUP BY EMP.DEPTNO , EMP.JOB
+ HAVING COUNT(EMPNO) >= 2
+ ORDER BY  EMP.DEPTNO ASC 
+ 
+ --Display employee name , departmnet name and, boss name. 
+ SELECT A.ENAME  AS EMPLOYEE,DEPT.DNAME AS DEPARTMENT ,B.ENAME AS BOSS  
+ FROM EMP A , EMP B  LEFT JOIN DEPT
+ ON B.DEPTNO = DEPT.DEPTNO
+ WHERE B.EMPNO = A.MGR 
+ ORDER BY B.DEPTNO 
+
+--Display employee name ,department name and,manager name which is deparment 20,30.
+SELECT A.ENAME AS EMPLOYEE,DEPT.DNAME ,B.ENAME AS BOSS  
+ FROM EMP A , EMP B  INNER JOIN DEPT
+ ON B.DEPTNO = DEPT.DEPTNO AND ((B.DEPTNO = 20 OR B.DEPTNO = 30) OR (B.MGR IS NULL))
+ WHERE B.EMPNO = A.MGR 

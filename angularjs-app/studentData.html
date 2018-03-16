@@ -1,0 +1,77 @@
+<html ng-app="student">
+
+<head>
+    <title>Student Details Form</title>
+    <script src="angular.js"></script>
+    <script src="studentData.js"></script>
+    <style>
+        table {
+            border: 2px solid black;
+        }
+
+        tr td {
+
+            width: 100px;
+            height: 30px;
+            font-family: monospace;
+            color: blue;
+            border: 1px solid black;
+        }
+
+        th {
+            border: 1px solid black;
+            width: 50px;
+            height: 30px;
+            color: red;
+        }
+
+        button {
+            font-family: sans-serif;
+            font-size: 10px;
+            background-color: #297;
+            color: #fff;
+            border: 0px;
+            border-radius: 3px;
+            padding: 10px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            margin-left: 4px;
+            margin-top: 8px;
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div ng-controller="studentController">
+        <table>
+            <thead>
+                <tr>
+                    <th>Roll No</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Email</th>
+                    <th>Date</th>
+                    <th>isMale</th>
+                    <th>Event</th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="result in results">
+                <tr>
+                    <td align='center'>{{result.rollNo}}</td>
+                    <td align='center'>{{result.name}}</td>
+                    <td align='center'>{{result.age}}</td>
+                    <td align='center'>{{result.email}}</td>
+                    <td align='center'>{{result.date}}</td>
+                    <td align='center'>{{result.gender}}</td>
+                    <td> <button  onclick='editData(this.id)' >Edit</button>
+                         <button   onClick='deleteData()'>Delete</button> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

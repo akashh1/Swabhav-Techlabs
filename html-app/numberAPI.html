@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>Number API</title>
+    </head>
+    <body onload="print()">
+        <label>Write Any Number: <input type=" number" id="number"></label>
+        <button type="button" id = "submit" onclick="loadNumberAPI()">Submit</button>
+        <br><br>
+        <div id="response"></div>
+    </body>
+    <script>
+        var response = document.getElementById("response");
+        var responses = [];
+
+        function save(){
+            var objElement = {"element":response};
+            responses.push(objElement);
+            localStorage.setItem("responses",JSON.stringify(responses));
+            console.log(response);
+        }
+
+        function inIt(){
+            var previousResponse = JSON.parse(localStorage.getItem("responses"));
+            if(previousResponse){
+                for(var text of previousResponse){
+                    responses.push(text);
+                }
+            }
+        }
+        function loadNumberAPI(){
+            var number = document.getElementById("number").value    ;
+            var xhhtp = new XMLHttpRequest();
+            xhhtp.onreadystatechange = function(){
+
+                if(this.readyState == 4 && this.status == 200){
+                    response.innerHTML += this.responseText + "<br>";
+                }
+                save();
+            };
+            console.log(number);
+            xhhtp.open("GET","http://numbersapi.com/"+number,true);
+            xhhtp.send();
+        }
+
+        function print(){
+            inIt();
+            var data = JSON.parse(localStorage.getItem("responses"));
+            console.log(data);
+            for(var msg of data){
+                var responseDiv = document.createElement("div");
+                response.innerHTML = msg.element;
+            }
+        }
+    </script>
+</html>

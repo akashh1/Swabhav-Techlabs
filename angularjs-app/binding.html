@@ -1,0 +1,32 @@
+<html ng-app="binding">
+
+<head>
+    <title>Binding</title>
+    <script src="./angular.js"></script>
+    <script src="./binding.js"></script>
+</head>
+
+<body ng-controller="bindingController">
+    <div>
+        Message:
+        <input type="text" ng-model="message">
+        <br>
+        <br> Font Color:
+        <select ng-model="selectedColor" ng-options="color for color in colorNames" ng-change="fontColorChange(selectedColor)">
+        </select>
+        <br>
+        <br> BgColor:
+        <select ng-model="selectedColorBg" ng-options="color for color in colorNames" ng-change="backGroundColorChange(selectedColorBg)">
+
+        </select>
+        <br>
+        <br> Font Size:
+        <input type="number" ng-model="size"> pixel
+    </div>
+    <br>
+    <div ng-style="{color:color,'background-color':colorBg,'font-size':size}">
+       {{message}} 
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+
+<div class="container">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Roll No</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>PhoneNo</th>
+                <th>Email</th>
+                <th>Password</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let i of data">
+            <tr>
+                <td >{{i.RollNo}}</td>
+                <td >{{i.Name}}</td>
+                <td >{{i.Age}}</td>
+                <td >{{i.PhoneNo}}</td>
+                <td >{{i.Email}}</td>
+                <td >{{i.Password}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

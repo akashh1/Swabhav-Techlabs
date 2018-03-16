@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="form-group">
+        <label>Roll No: </label>
+        <input type="number" [(ngModel)]="rollNo" class="form-control" placeholder="Roll No" />
+    </div>
+
+    <div class="form-group">
+        <label>Name: </label>
+        <input type="text" [(ngModel)]='name' placeholder="Name" class="form-control"/>
+    </div>
+
+    <div class="form-group">
+        <label>Age: </label>
+        <input type="number" [(ngModel)]='age' placeholder="Age" class="form-control"/>
+    </div>
+
+    <div class="form-group">
+        <label>Email: </label>
+        <input type="text" [(ngModel)]='email' placeholder="Email" class="form-control"/>
+    </div>
+
+    <div class="form-group">
+        <label>Date: </label>
+        <input type="date" [(ngModel)]='date' placeholder="date" class="form-control"/>
+    </div>
+
+    <div class="form-group">
+        <label>IsMale: </label>
+        <input type="radio" [value]="true" [(ngModel)]='isMale' checked/>Male
+        <input type="radio" [value]="false" [(ngModel)]='isMale'/>Female
+        <br>
+        <br>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)='AddStudent(rollNo,name,age,email,
+    date,isMale)'>Add</button>
+</div>
